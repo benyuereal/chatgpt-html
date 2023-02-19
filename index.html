@@ -20,9 +20,12 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="css/responsive.css">
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
-    <script>
+      <script src="https://cdn.bootcss.com/crypto-js/3.1.9-1/crypto-js.min.js"></script>
+
+      <script>
 	    async function callCHATGPT() {
-		var responseText1 = document.getElementById("chatgpt-response");
+
+            var responseText1 = document.getElementById("chatgpt-response");
 		responseText1.innerHTML = ""
         function printMessage(message) {
           var responseText = document.getElementById("chatgpt-response");
@@ -40,11 +43,20 @@
           },
           150); // 每隔50毫秒打印一个字符
         }
+            var aseKey = "12345678" //秘钥必须为：8/16/32位
+            //加密
+            var encrypt = "MkF8DL0FMrWyxOZ8GUf1tp5ZH9cvSAWI/kcxIMy0U1hvGaoAVDKAX2t8ew636PL3ZcrCkRO2QWbe/hVY/RiA2Q==";
+            //解密
+            var decrypt = CryptoJS.AES.decrypt(encrypt, CryptoJS.enc.Utf8.parse(aseKey), {
+                mode: CryptoJS.mode.ECB,
+                padding: CryptoJS.pad.Pkcs7
+            }).toString(CryptoJS.enc.Utf8);
+
         var xhr = new XMLHttpRequest();
         var url = "https://api.openai.com/v1/completions";
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Authorization", "Bearer 123456");
+        xhr.setRequestHeader("Authorization", "Bearer " + decrypt);
         xhr.onreadystatechange = function() {
           if (xhr.readyState === 4 && xhr.status === 200) {
             var json = JSON.parse(xhr.responseText);
@@ -103,12 +115,11 @@
     </header>
     <div class="basic-portfolio-area ptb-10">
       <div class="filter-menu text-center mb-40">
-        <h4>与Ai对话，请描述您的需求-支持中文、英语、日本语等</h4>
-        <h3>访问费用由站长承担，请勿频繁访问！</h3>
-        <h3>此网站为公益网站如果你在某宝某鱼购买的 请申请退款 并举报！</h3>
-        <h3>网站正在遭受攻击中 防火墙已开启 请勿频繁访问！</h3>
-        <h3>此网站搭建教程</h3>
-		<p>https://cloud.tencent.com/developer/article/2192663</p>
+        <h5>智能问答机器人，请输入您想问的问题</h5>
+        <h4>访问费用由站长承担，请勿频繁访问！</h4>
+        <h4>目前免费流量期间流量有限，敬请谅解！</h4>
+        <h4>目前免费流量期间流量有限，敬请谅解！</h4>
+        <h4 style="color: #c9302c">联系电话(微信): 18850575164 </h4>
 	  </div>
       <div class="call-to-action-area gray-bg ptb-60">
         <div class="container">
@@ -116,18 +127,17 @@
             <div class="col-md-9 col-sm-9 col-xs-12">
               <div class="form-group">
                 <label></label>
-                <textarea class="form-control" id="chat-gpt-input" placeholder="输入描述" rows="3" resize="none" style="width: 135%; margin: 0 auto; background-color: #f4f4f4; color: #333; border: 1px solid #ccc; border-radius: 12px;"></textarea>
+                <textarea class="form-control" id="chat-gpt-input" placeholder="输入描述" rows="3" resize="none" style="width: 95%; margin: 0 auto; background-color: #f4f4f4; color: #333; border: 1px solid #ccc; border-radius: 12px;"></textarea>
               </div>
               <div class="col-md-3 col-sm-3 col-xs-12">
                 <div class="call-to-action">
                   <button onclick="callCHATGPT()" autocomplete="off" class="btn btn-large" href="#" style="background-color: #333; color: #f4f4f4; border-radius: 10px">
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Click to
-                    <br>Answer</button></div>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>提交问题</button></div>
               </div>
               <div class="col-md-9 col-sm-9 col-xs-12">
                 <div class="form-group">
                   <label></label>
-                  <textarea class="form-control" id="chatgpt-response" placeholder="长途访问，请耐心等待回答 Ai生成它很快，但是由于网络问题我们需要等待，通常内容越长等待越久 如果长时间没反应请刷新页面重试" rows="26" resize="none" style="width: 150%;height: auto; margin: 0 auto; background-color: #f4f4f4; color: #333; border: 1px solid #ccc; border-radius: 10px; overflow: scroll;" readonly="true"></textarea>
+                  <textarea class="form-control" id="chatgpt-response" placeholder="长途访问，请耐心等待回答 Ai生成它很快，但是由于网络问题我们需要等待，通常内容越长等待越久 如果长时间没反应请刷新页面重试" rows="26" resize="none" style="width: 100%;height: auto; margin: 0 auto; background-color: #f4f4f4; color: #333; border: 1px solid #ccc; border-radius: 10px; overflow: scroll;" readonly="true"></textarea>
                 </div>
               </div>
             </div>
@@ -140,12 +150,13 @@
 						<h3><a href="index.html">Open Ai 智能对话</a></h3>
 					</div>
 					<div class="copyright mt-20">
-						<p>站长TG：<a href="https://t.me/pocxxx">@pocxxx</a></p>
-						<p>国外手机号接码：<a href="https://sms-activate.org/?ref=2461182">https://sms-activate.org</a></p>
 						<hr>
 						<hr>
-						<p>截至到2022.12.13 已花费5000多刀 👇赞助站长👇</p>
-						<p><img src='https://chatgpt.sbaliyun.com/img/20230106220707.jpg' /></p>
+						<p>👇赞助👇</p>
+						<p style="width: 90%;height: auto; "><img src='img/wechat_appreciate_qr.jpg' /></p>
+
+                        <p>👇作者微信👇</p>
+                        <p style="width: 90%;height: auto; "><img src='img/wechat_pic.jpg' /></p>
 					</div>
 					<div class="footer-menu mt-30">
 						<p>友情链接</p>
