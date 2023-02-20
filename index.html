@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="css/responsive.css">
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
       <script src="https://cdn.bootcss.com/crypto-js/3.1.9-1/crypto-js.min.js"></script>
+      <script src="js/util/aes-util.js"></script>
 
       <script>
 	    async function callCHATGPT() {
@@ -43,20 +44,22 @@
           },
           150); // 每隔50毫秒打印一个字符
         }
+
             var aseKey = "12345678" //秘钥必须为：8/16/32位
             //加密
             var encrypt = "MkF8DL0FMrWyxOZ8GUf1tp5ZH9cvSAWI/kcxIMy0U1hvGaoAVDKAX2t8ew636PL3ZcrCkRO2QWbe/hVY/RiA2Q==";
-            //解密
-            var decrypt = CryptoJS.AES.decrypt(encrypt, CryptoJS.enc.Utf8.parse(aseKey), {
-                mode: CryptoJS.mode.ECB,
-                padding: CryptoJS.pad.Pkcs7
-            }).toString(CryptoJS.enc.Utf8);
+// 对hello进行加密
+            let str = aesEncode(encrypt)
+            console.log(str) // k1sj3bcoa%2BOWfzgEZyqYeA%3D%3D
+
+// 对hello进行解密
+            let decode = aesDecode('')
 
         var xhr = new XMLHttpRequest();
         var url = "https://api.openai.com/v1/completions";
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Authorization", "Bearer " + decrypt);
+        xhr.setRequestHeader("Authorization", "Bearer " + decode);
         xhr.onreadystatechange = function() {
           if (xhr.readyState === 4 && xhr.status === 200) {
             var json = JSON.parse(xhr.responseText);
@@ -95,7 +98,7 @@
       }
 	</script>
   </head>
-	 
+
   <body>
     <div class="page-loader">
       <div class="loader">Loading...</div></div>
